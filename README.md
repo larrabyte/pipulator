@@ -8,3 +8,6 @@ Simply install `pyglet` before running:
 ```
 $ pip install pyglet
 ```
+
+## Screenshot
+![Pipulator Screenshot](screenshot.png)

@@ -64,9 +64,17 @@ class Simulation(pyglet.window.Window):
     def on_draw(self):
         self.clear()
         self.drawables["small"].x = self.small.x
+        self.drawables["smallmass"].x = self.small.x +  + self.small.size / 2
         self.drawables["large"].x = self.large.x
+        self.drawables["largemass"].x = self.large.x + self.large.size / 2
+
+        self.drawables["smallmass"].text = f"{self.small.mass:,}kg"
+        self.drawables["largemass"].text = f"{self.large.mass:,}kg"
         self.drawables["counter"].text = f"collisions: {self.collisions:,}"
         self.drawables["debug"].text = f"physics execution time: {self.exectime:05.2f}ms"
+
+        cstr = str(self.collisions)
+        self.drawables["estimate"].text = f"π = {cstr[:1]}.{cstr[1:] or 0}"
         self.batch.draw()
 
         self.exectime = time.time()
@@ -78,7 +86,10 @@ class Simulation(pyglet.window.Window):
         self.drawables["floor"] = pyglet.shapes.Rectangle(x=0, y=50, width=1200, height=5, batch=self.batch)
         self.drawables["small"] = pyglet.shapes.Rectangle(x=self.small.x, y=55, width=self.small.size, height=self.small.size, color=(140, 146, 172), batch=self.batch)
         self.drawables["large"] = pyglet.shapes.Rectangle(x=self.large.x, y=55, width=self.large.size, height=self.large.size, color=(178, 190, 181), batch=self.batch)
+        self.drawables["smallmass"] = pyglet.text.Label(x=self.small.x + self.small.size / 2, y=63 + self.small.size, anchor_x="center", font_size=6, dpi=192, batch=self.batch)
+        self.drawables["largemass"] = pyglet.text.Label(x=self.large.x + self.large.x / 2, y=63 + self.large.size, anchor_x="center", font_size=6, dpi=192, batch=self.batch)
         self.drawables["counter"] = pyglet.text.Label(x=150, y=550, font_size=12, dpi=192, batch=self.batch)
+        self.drawables["estimate"] = pyglet.text.Label(x=152.5, y=505, font_size=6, dpi=192, batch=self.batch)
         self.drawables["debug"] = pyglet.text.Label(x=152.5, y=525, font_size=6, dpi=192, batch=self.batch)
         self.data = Precompute(self.small, self.large, self.drawables["wall"])
 
